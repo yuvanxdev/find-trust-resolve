@@ -1,0 +1,93 @@
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: findit-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-findit}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-findit_secure_password}
+      POSTGRES_DB: ${POSTGRES_DB:-findit_ai}
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-findit} -d ${POSTGRES_DB:-findit_ai}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - findit-network
+    # PostgreSQL is private within Docker network (NOT exposed publicly to host)
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: findit-backend
+    restart: unless-stopped
+    environment:
+      DATABASE_URL: postgresql://${POSTGRES_USER:-findit}:${POSTGRES_PASSWORD:-findit_secure_password}@db:5432/${POSTGRES_DB:-findit_ai}
+      SECRET_KEY: ${SECRET_KEY:-change_this_to_a_secure_random_key_in_production}
+      ALGORITHM: ${ALGORITHM:-HS256}
+      ACCESS_TOKEN_EXPIRE_MINUTES: ${ACCESS_TOKEN_EXPIRE_MINUTES:-1440}
+      ENVIRONMENT: ${ENVIRONMENT:-production}
+      GEMINI_API_KEY: ${GEMINI_API_KEY:-}
+      ALLOWED_ORIGINS: ${ALLOWED_ORIGINS:-*}
+      UPLOAD_DIRECTORY: uploads
+      MAX_UPLOAD_SIZE: 5242880
+      MAX_DOCUMENT_SIZE: 10485760
+      LOG_LEVEL: ${LOG_LEVEL:-INFO}
+    volumes:
+      - uploads_data:/app/uploads
+    depends_on:
+      db:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:8000/health || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    networks:
+      - findit-network
+    # Backend port 8000 is internal only; all external traffic routes through Nginx gateway on port 80
+
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: findit-frontend
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+      PORT: 3000
+      HOST: 0.0.0.0
+    depends_on:
+      backend:
+        condition: service_healthy
+    networks:
+      - findit-network
+    # Frontend port 3000 is internal only; all external traffic routes through Nginx gateway on port 80
+
+  gateway:
+    image: nginx:alpine
+    container_name: findit-gateway
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - frontend
+      - backend
+    networks:
+      - findit-network
+
+volumes:
+  pg_data:
+    name: findit_pg_data
+  uploads_data:
+    name: findit_uploads_data
+
+networks:
+  findit-network:
+    driver: bridge
