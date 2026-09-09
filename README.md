@@ -1,5 +1,11 @@
 # FindIt AI — Campus Lost & Found with AI Ownership Verification
 
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-Online-success?style=for-the-badge&logo=cloudflare)](https://deeply-actor-part-sectors.trycloudflare.com)
+[![API Health](https://img.shields.io/badge/API-Operational-brightgreen?style=for-the-badge)](https://deeply-actor-part-sectors.trycloudflare.com/health)
+
+> 🌐 **Public Live Demo:** [https://deeply-actor-part-sectors.trycloudflare.com](https://deeply-actor-part-sectors.trycloudflare.com)  
+> 📖 **Interactive API Docs (Swagger):** [https://deeply-actor-part-sectors.trycloudflare.com/docs](https://deeply-actor-part-sectors.trycloudflare.com/docs)
+
 FindIt AI is an intelligent, multi-modal campus lost-and-found system designed to match lost and found items accurately and semantically verify ownership before releasing contact details.
 
 Built with **TanStack Start (React 19 + Vite + SSR)**, **Tailwind CSS v4**, **FastAPI**, **PostgreSQL**, and packaged for mobile using **Capacitor 8 (Android)**.
