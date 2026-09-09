@@ -2,9 +2,17 @@
 
 [![Live Demo](https://img.shields.io/badge/Live%20Demo-Online-success?style=for-the-badge&logo=cloudflare)](https://deeply-actor-part-sectors.trycloudflare.com)
 [![API Health](https://img.shields.io/badge/API-Operational-brightgreen?style=for-the-badge)](https://deeply-actor-part-sectors.trycloudflare.com/health)
+[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16-blue?style=for-the-badge&logo=postgresql)](https://deeply-actor-part-sectors.trycloudflare.com/health/db)
+[![FastAPI](https://img.shields.io/badge/FastAPI-0.115-009688?style=for-the-badge&logo=fastapi)](https://deeply-actor-part-sectors.trycloudflare.com/docs)
 
-> 🌐 **Public Live Demo:** [https://deeply-actor-part-sectors.trycloudflare.com](https://deeply-actor-part-sectors.trycloudflare.com)  
-> 📖 **Interactive API Docs (Swagger):** [https://deeply-actor-part-sectors.trycloudflare.com/docs](https://deeply-actor-part-sectors.trycloudflare.com/docs)
+### 🔗 Live Deployment & API Links
+
+| Service | Public URL | Description |
+| :--- | :--- | :--- |
+| 🌐 **Live Web App** | **[deeply-actor-part-sectors.trycloudflare.com](https://deeply-actor-part-sectors.trycloudflare.com)** | Full responsive SSR web application |
+| 📖 **API Docs (Swagger)** | **[deeply-actor-part-sectors.trycloudflare.com/docs](https://deeply-actor-part-sectors.trycloudflare.com/docs)** | Interactive Swagger UI API playground |
+| 🏥 **API Health Check** | **[deeply-actor-part-sectors.trycloudflare.com/health](https://deeply-actor-part-sectors.trycloudflare.com/health)** | Live server uptime probe |
+| 🗄️ **Database Health Check** | **[deeply-actor-part-sectors.trycloudflare.com/health/db](https://deeply-actor-part-sectors.trycloudflare.com/health/db)** | PostgreSQL connectivity probe |
 
 FindIt AI is an intelligent, multi-modal campus lost-and-found system designed to match lost and found items accurately and semantically verify ownership before releasing contact details.
 
